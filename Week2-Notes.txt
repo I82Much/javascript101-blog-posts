@@ -1,0 +1,31 @@
+labeled break statements
+
+
+for (name in object) {
+	if (object.hasOwnProperty(name)) {
+	
+	}
+}
+
+switch can be a string or anything else.  case values can be expressions instead of constants
+
+blocks do not have scope! only function scope
+
+no void type in javascript; if you say 'return' this is same as 'return undefined'
+
+can augment any object (add new fields.)
+
+object(o) function
+
+prototypal inheritance rather than classical inheritance
+
+
+objects are passed by reference, not value
+
+arrays length - always 1 larger than highest integer subscript
+
+
+to determine if obj is array
+
+value.constructor === Array
+value instanceof Array
