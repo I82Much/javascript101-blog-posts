@@ -1,0 +1,48 @@
+## Why do languages provide the switch statement, when we can achieve the same thing with multiple if... elseif statements? Show one example of how you might use the switch statement.
+
+
+## What is encapsulation, and what do functions encapsulate?
+
+
+## What is a pure function? Is the function show() provided in Eloquent Javascript a pure function?
+
+
+## What do we mean when we say a variable in a function is shadowing a top level variable?
+
+
+## A recursive function, must have some sort of an end condition. Why would we get a "out of stack space" error message if a recursive function does not have an end condition?
+
+
+## Reflect about the difference between object inheritance and class inheritance
+
+
+## What is object augmentation, and how do we do it?
+
+
+## There is a way to add a method to String, such as any new String we create will have that augmented method (this is a bit different from object augmentation). How would you do this?
+
+To augment all strings, we need to augment the String.prototype (as all strings prototypically inherit from this object).  As a silly example, I'm going to add a field named "my_blog" to all Strings.  
+
+<div>
+[sourcecode language="javascript"]
+String.prototype["my_blog"] = "http://www.developmentality.wordpress.com";
+var nicksBlog = "test".my_blog; // I could also access it via "test"["my_blog"]
+[/sourcecode]
+</div>
+
+## What is garbage collection?
+Garbage collection refers to the fact that objects that go out of scope and no longer are referenced are automatically found and their memory is restored.  Garbage collection is a feature that makes programmers' lives easier, as we do not have to manually keep track of freeing the memory of each and every object as it goes in and out of scope.  Languages like C do not have garbage collection, introducing a whole potential of errors for programmers.  The most common error is a memory leak which might not immediately crash a program, but leads to an increasing amount of memory usage over time.
+
+## What is the difference between an array and an object?
+While arrays are very similar to objects, there are at least 3 differences. (See [jsfiddle][1] for an illustrative example)
+
+1. Literal construction syntax
+	Arrays are formed by square brackets ([]), whereas general objects are formed with curly braces ({})
+2. "Secret link"
+	Arrays are automatically linked with Array.prototype; Objects are automatically linked with Object.prototype.  This affects the fields available to an array vs an object; for instance, an array will have a length field that automatically reflects the size of the array, whereas a general object will not.  Arrays also have methods defined on them, such as concat(), join(), pop(), etc. (see [w3schools][2] for more)
+3.  Objects' entries can be accessed with dot syntax or using the bracket notation (e.g. o.name or o["name"]); arrays can only be accessed with bracket notation (e.g. array[1])
+	
+	
+	
+[1]:http://jsfiddle.net/FeF6G/2/
+[2]:http://www.w3schools.com/jsref/jsref_obj_array.asp
