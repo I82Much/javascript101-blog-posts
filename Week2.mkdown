@@ -1,11 +1,58 @@
 ## Why do languages provide the switch statement, when we can achieve the same thing with multiple if... elseif statements? Show one example of how you might use the switch statement.
 
+Languages provide the switch statement for two main reasons.  The first is that they are arguably more readable than multiple if/else if statements.  Secondly, in some languages the compiler can optimize switch statements to be more efficient than the equivalent if/else if/else if construct.  
+
+Unfortunately, they can be more error prone due to the ability to 'fall through' switch statements.  Consider the following:
+
+var BOY = 1;
+var GIRL = 2;
+var sentence = "Congratulations, it's a ";
+switch (gender) {
+	case BOY:
+		sentence += "boy!";
+	// ERROR: no break statement; will fall through to girl case, ending
+	// with the sentence "Congratulations, it's a boy!girl!"
+	case GIRL:
+		sentence += "girl!";
+}
+
+Furthermore, programmers frequently forget to provide a default case to handle the case when none of the alternative options match.  This frequently happens in Java with enumerations, since the compiler won't mark this as an error:
+
+<div>
+[sourcecode language="java"]
+</div>
+enum Foo {
+	FOO_1,
+	FOO_2
+}
+
+Foo x = ...;
+switch (x) {
+	case FOO_1:
+		...
+		break;
+	case FOO_2:
+		...
+		break;
+}
+
+// Everything is fine.  Later, the Foo enum is modified, and a new option is added
+
+enum Foo {
+	FOO_1,
+	FOO_2,
+	FOO_3
+}
+[/sourcecode]
+
+With the addition of the new enumerated value, we can inadvertently fall through all the options without having executed any code.  It is for this reason that I suggest you *always* provide a default case, even if all it does is throw an exception indicating that this should never happen.  Trust me, you'll find your bugs much earlier/easier this way.
+
 
 ## What is encapsulation, and what do functions encapsulate?
 
 
 ## What is a pure function? Is the function show() provided in Eloquent Javascript a pure function?
-
+A pure function is one without side effects, i.e. a function in the mathematical sense of the word.  `show` is not a pure function, as it has the side effect of writing to the screen.
 
 ## What do we mean when we say a variable in a function is shadowing a top level variable?
 
@@ -17,11 +64,16 @@
 
 
 ## What is object augmentation, and how do we do it?
+Object augmentation is the act of adding fields to an existing object.  For instance,
+
+var nick = {name:"Nick",age:23};
+
+
 
 
 ## There is a way to add a method to String, such as any new String we create will have that augmented method (this is a bit different from object augmentation). How would you do this?
 
-To augment all strings, we need to augment the String.prototype (as all strings prototypically inherit from this object).  As a silly example, I'm going to add a field named "my_blog" to all Strings.  
+To augment all strings, we need to augment `String.prototype`, since all string instances inherit from this object.  As a silly example, I'm going to add a field named "my_blog" to all Strings.  
 
 <div>
 [sourcecode language="javascript"]
@@ -42,7 +94,68 @@ While arrays are very similar to objects, there are at least 3 differences. (See
 	Arrays are automatically linked with Array.prototype; Objects are automatically linked with Object.prototype.  This affects the fields available to an array vs an object; for instance, an array will have a length field that automatically reflects the size of the array, whereas a general object will not.  Arrays also have methods defined on them, such as concat(), join(), pop(), etc. (see [w3schools][2] for more)
 3.  Objects' entries can be accessed with dot syntax or using the bracket notation (e.g. o.name or o["name"]); arrays can only be accessed with bracket notation (e.g. array[1])
 	
-	
+
+# Homework
+
+## 3.1
+> Write a function called absolute, which returns the absolute value of the number it is given as its argument. The absolute value of a negative number is the positive version of that same number, and the absolute value of a positive number (or zero) is that number itself.
+
+<div>
+[sourcecode language="javascript"]
+function abs(x) {
+	if (x < 0) {
+		return -x;
+	}
+	else {
+		return x;
+	}
+}
+[/sourcecode]
+</div>
+
+## 3.2
+> Write a function greaterThan, which takes one argument, a number, and returns a function that represents a test. When this returned function is called with a single number as argument, it returns a boolean: true if the given number is greater than the number that was used to create the test function, and false otherwise.
+
+<div>
+[sourcecode language="javascript"]
+function greaterThan(x) {
+	return function(y) {
+		return y>x;
+	}
+}
+[/sourcecode]
+</div>
+
+## 3
+> Shown below is some code which does something useful. The function 'iterateAndOperate' is the one which accomplishes something useful. The remaining code helps this function. Try to understand what the function accomplishes and solve the problems in part a, b, and c. The code can be done inside the console in Javascript, or in the web browser. Please see this comment, for hints on how you may do it inside a web page(remember, HTML has special codes for spaces and newlines).
+
+<div>
+[sourcecode language="javascript"]
+var pictureArray = ["++++@++++", "+++@@@+++", "++@@@@@++", "+++@@@+++", "++++@++++"];
+iterateAndOperate(pictureArray, print)
+++++@++++
++++@@@+++
+++@@@@@++
++++@@@+++
+++++@++++
+
+var triangleArray = ["*", "***", "*****", "***", "*"];
+iterateAndOperate(triangleArray, print);
+*
+***
+*****
+***
+*
+
+try {
+	iterateAndOperate();
+}
+catch (err) {
+	alert("Error, you must provide an array and function argument to iterateAndOperate");
+}
+[/sourcecode]
+</div>
+f
 	
 [1]:http://jsfiddle.net/FeF6G/2/
 [2]:http://www.w3schools.com/jsref/jsref_obj_array.asp
