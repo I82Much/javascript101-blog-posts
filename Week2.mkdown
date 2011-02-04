@@ -90,6 +90,8 @@ When we have unbounded recursion, more and more variables are added to the stack
 
 ![Organization of the stack](http://ee.hawaii.edu/~tep/EE160/Book/chap14/_18027_figure351.gif)
 
+By the way, the fact that function calls are added to this stack is the reason that you can always replace a recursive function with an iterative solution using an explicit stack data structure.  This is often not worth the added complexity, but it's something to be aware of.  (You can often replace a recursive algorithm with an iterative solution without using a stack, but the code can be much more complicated.  Iterative solutions are often more efficient than recursive solutions, so as always it's a tradeoff.  See the [recursion][5] article on Wikipedia for more information.)
+
 ## Reflect about the difference between object inheritance and class inheritance
 
 
