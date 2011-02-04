@@ -57,6 +57,17 @@ With the addition of the new enumerated value, we can inadvertently fall through
 
 ## What is encapsulation, and what do functions encapsulate?
 
+Encapsulation is a programming technique to manage complexity and reduce duplication.  If I am writing a geometric library I might have code to calculate the area of a circle in a few different places.  If this happens once or twice, that might not be the end of the world.  The problem is that it becomes very difficult to keep the code in sync in multiple places.  A better solution is to break out the logic for calculating the area into a separate function, and then call that function from various places.
+
+This has three main benefits.  
+
+1. This encapsulation of the logic reduces code duplication.  Code duplication is bad, as it means that any time you find a bug or want to change something, you need to remember to change it in multiple places.  This is a maintenance headache and is extremely error prone.
+
+2. It makes the code easier to read by better expressing the intent of what you are trying to do and by hiding the details.  For instance, instead of having a few lines of code to calculate some number, you can move these lines into a small helper function whose name expresses what the calculation does.    
+
+3. By encapsulating the implementation details within a function, you can change the underlying algorithm without necessitating any client code to change.  For instance, you might change a recursive function to an iterative approach for efficiency purposes, but as long as the method name and parameter list stay constant, dependent code is unaffected.
+
+Encapsulation is extremely useful for all the above reasons.  It allows the programmer to work at higher levels of abstraction, by hiding implementation details and allowing complex functionality to be built from multiple small, simple function calls.
 
 ## What is a pure function? Is the function show() provided in Eloquent Javascript a pure function?
 A pure function is one without side effects, i.e. a function in the mathematical sense of the word.  `show` is not a pure function, as it has the side effect of writing to the screen.
@@ -90,7 +101,7 @@ When we have unbounded recursion, more and more variables are added to the stack
 
 ![Organization of the stack](http://ee.hawaii.edu/~tep/EE160/Book/chap14/_18027_figure351.gif)
 
-By the way, the fact that function calls are added to this stack is the reason that you can always replace a recursive function with an iterative solution using an explicit stack data structure.  This is often not worth the added complexity, but it's something to be aware of.  (You can often replace a recursive algorithm with an iterative solution without using a stack, but the code can be much more complicated.  Iterative solutions are often more efficient than recursive solutions, so as always it's a tradeoff.  See the [recursion][5] article on Wikipedia for more information.)
+By the way, the fact that function calls are added to this stack is the reason that you can always replace a recursive function with an iterative solution using an explicit stack data structure.  This is often not worth the added complexity, but it's something to be aware of.  (You can often replace a recursive algorithm with an iterative solution without using a stack, but the code can be much more complicated.  Iterative solutions are often more efficient than recursive solutions, so as always it's a tradeoff.  See the [recursion][6] article on Wikipedia for more information.)
 
 ## Reflect about the difference between object inheritance and class inheritance
 
@@ -194,3 +205,4 @@ f
 [3]:http://en.wikipedia.org/wiki/Switch_statement
 [4]:http://en.wikipedia.org/wiki/Branch_table
 [5]:http://ee.hawaii.edu/~tep/EE160/Book/chap14/subsection2.1.1.8.html
+[6]:http://en.wikipedia.org/wiki/Recursion_(computer_science)
