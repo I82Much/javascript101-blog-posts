@@ -1,26 +1,32 @@
 ## Why do languages provide the switch statement, when we can achieve the same thing with multiple if... elseif statements? Show one example of how you might use the switch statement.
 
-Languages provide the switch statement for two main reasons.  The first is that they are arguably more readable than multiple if/else if statements.  Secondly, in some languages the compiler can optimize switch statements to be more efficient than the equivalent if/else if/else if construct.  
+Languages provide the switch statement for two main reasons.  The first is that they are arguably more readable than multiple if/else if statements.  Secondly, in some languages the compiler can optimize switch statements to be more efficient than the equivalent if/else if/else if construct.  See [the wikipedia article on Switch statements][3] and [Branch tables][4] if you're interested in the details.
 
-Unfortunately, they can be more error prone due to the ability to 'fall through' switch statements.  Consider the following:
+Unfortunately, switch statements can be more error prone due to the ability to 'fall through' switch statements.  Consider the following:
 
+<div>
+[sourcecode language="javascript"]
 var BOY = 1;
 var GIRL = 2;
 var sentence = "Congratulations, it's a ";
+var gender = ...;
 switch (gender) {
 	case BOY:
 		sentence += "boy!";
 	// ERROR: no break statement; will fall through to girl case, ending
-	// with the sentence "Congratulations, it's a boy!girl!"
+	// with the sentence "Congratulations, it's a boy!girl!" if 
 	case GIRL:
 		sentence += "girl!";
 }
+[/sourcecode]
+</div>
+
+(Note: the above example is somewhat contrived, but forgetting to put a `break` at the end of a `case` is a *very* common error.  Please be cognizant of it when using `switch`.)
 
 Furthermore, programmers frequently forget to provide a default case to handle the case when none of the alternative options match.  This frequently happens in Java with enumerations, since the compiler won't mark this as an error:
 
 <div>
 [sourcecode language="java"]
-</div>
 enum Foo {
 	FOO_1,
 	FOO_2
@@ -44,6 +50,7 @@ enum Foo {
 	FOO_3
 }
 [/sourcecode]
+</div>
 
 With the addition of the new enumerated value, we can inadvertently fall through all the options without having executed any code.  It is for this reason that I suggest you *always* provide a default case, even if all it does is throw an exception indicating that this should never happen.  Trust me, you'll find your bugs much earlier/easier this way.
 
@@ -55,10 +62,33 @@ With the addition of the new enumerated value, we can inadvertently fall through
 A pure function is one without side effects, i.e. a function in the mathematical sense of the word.  `show` is not a pure function, as it has the side effect of writing to the screen.
 
 ## What do we mean when we say a variable in a function is shadowing a top level variable?
+If two variables have the same name, with one being in the global scope and one being in the function scope, the function scoped variable shadows that of the global, top level variable.  This means that when we refer to the variable within the function, we access the function scoped variable rather than the top level variable.  For instance,
+
+<div>
+[sourcecode language="javascript"]
+
+// No var declaration; this is global
+name = "Nick";
+
+function greet() {
+	// This name variable shadows the global name declaration.
+	var name = "Kitty";
+	alert("Hi " + name);
+}
+// Says "Hi Kitty"
+greet();
+[/sourcecode]
+</div>
+
 
 
 ## A recursive function, must have some sort of an end condition. Why would we get a "out of stack space" error message if a recursive function does not have an end condition?
 
+A running computer program has memory space allocated both for a stack and for a heap.  The heap consists of global or static variables and those things that must remain throughout the life of the program.  The stack is where local variables reside.  When we call a function, all of the local variables necessary for that function reside are pushed to the top of the stack.  When a function exits, the space on the stack is able to be reclaimed.
+
+When we have unbounded recursion, more and more variables are added to the stack.  Since none of the functions are exiting, nothing is freed from the stack, and we soon run out of stack space.  See the following screenshot and the [accompanying article on Stack vs Heap allocation for more information][5]
+
+![Organization of the stack](http://ee.hawaii.edu/~tep/EE160/Book/chap14/_18027_figure351.gif)
 
 ## Reflect about the difference between object inheritance and class inheritance
 
@@ -159,3 +189,6 @@ f
 	
 [1]:http://jsfiddle.net/FeF6G/2/
 [2]:http://www.w3schools.com/jsref/jsref_obj_array.asp
+[3]:http://en.wikipedia.org/wiki/Switch_statement
+[4]:http://en.wikipedia.org/wiki/Branch_table
+[5]:http://ee.hawaii.edu/~tep/EE160/Book/chap14/subsection2.1.1.8.html
