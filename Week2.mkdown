@@ -14,7 +14,8 @@ switch (gender) {
 	case BOY:
 		sentence += "boy!";
 	// ERROR: no break statement; will fall through to girl case, ending
-	// with the sentence "Congratulations, it's a boy!girl!" if 
+	// with the sentence "Congratulations, it's a boy!girl!" if gender is
+	// GIRL
 	case GIRL:
 		sentence += "girl!";
 }
@@ -70,7 +71,7 @@ This has three main benefits.
 Encapsulation is extremely useful for all the above reasons.  It allows the programmer to work at higher levels of abstraction, by hiding implementation details and allowing complex functionality to be built from multiple small, simple function calls.
 
 ## What is a pure function? Is the function show() provided in Eloquent Javascript a pure function?
-A pure function is one without side effects, i.e. a function in the mathematical sense of the word.  `show` is not a pure function, as it has the side effect of writing to the screen.
+A pure function is one without side effects, i.e. a function in the mathematical sense of the word.  (It doesn't make use of variables other than those passed in to the function, so that you are always guaranteed to get the same output for the same input) `show` is not a pure function, as it has the side effect of writing to the screen.
 
 ## What do we mean when we say a variable in a function is shadowing a top level variable?
 If two variables have the same name, with one being in the global scope and one being in the function scope, the function scoped variable shadows that of the global, top level variable.  This means that when we refer to the variable within the function, we access the function scoped variable rather than the top level variable.  For instance,
@@ -103,25 +104,68 @@ When we have unbounded recursion, more and more variables are added to the stack
 
 By the way, the fact that function calls are added to this stack is the reason that you can always replace a recursive function with an iterative solution using an explicit stack data structure.  This is often not worth the added complexity, but it's something to be aware of.  (You can often replace a recursive algorithm with an iterative solution without using a stack, but the code can be much more complicated.  Iterative solutions are often more efficient than recursive solutions, so as always it's a tradeoff.  See the [recursion][6] article on Wikipedia for more information.)
 
-## Reflect about the difference between object inheritance and class inheritance
 
 
 ## What is object augmentation, and how do we do it?
-Object augmentation is the act of adding fields to an existing object.  For instance,
-
-var nick = {name:"Nick",age:23};
-
-
-
-
-## There is a way to add a method to String, such as any new String we create will have that augmented method (this is a bit different from object augmentation). How would you do this?
-
-To augment all strings, we need to augment `String.prototype`, since all string instances inherit from this object.  As a silly example, I'm going to add a field named "my_blog" to all Strings.  
+Object augmentation is the act of adding fields or functions to an existing object.  For instance,
 
 <div>
 [sourcecode language="javascript"]
-String.prototype["my_blog"] = "http://www.developmentality.wordpress.com";
-var nicksBlog = "test".my_blog; // I could also access it via "test"["my_blog"]
+var nick = {name:"Nick",age:23};
+// Augment the nick object with a new field
+nick.profession = "programmer";
+// Remove that field
+nick.profession = undefined
+[/sourcecode]
+</div>
+
+Why is this useful?  Well it's useful in the case I just presented, since you do not need to know the full set of fields in your object at initialization, but instead can add and remove them after the fact.
+
+It's a more powerful concept when combined with the idea of object prototypes.  Inheritance is achieved in Javascript through a hidden pointer to another object.  All objects have their pointer set to the Object.prototype, so we can augment all objects with a new method, simply by augmenting the Object.prototype object:
+
+<div>
+[sourcecode language="javascript"]
+nick = {name:"Nick",age:23};
+
+// This function returns a string representation of whatever
+// is invoking it
+function selfStringRep() {
+  var str = "";
+  for (var v in this) {
+    // This is not an inherited property
+    if (this.hasOwnProperty(v)) {
+      str += "'" + v + "': " + this[v] +"\n";
+    }
+  }
+  return str;
+}
+Object.prototype.toString = selfStringRep;
+print(nick.toString());
+// prints
+'name': Nick
+'age': 23
+[/sourcecode]
+</div>
+
+This is an incredibly powerful feature, and one that I could see being extremely useful.
+
+## There is a way to add a method to String, such as any new String we create will have that augmented method (this is a bit different from object augmentation). How would you do this?
+
+To augment all strings, we need to augment `String.prototype`, since all string instances inherit from this object.  For instance, let's add the ability to reverse any string.
+
+<div>
+[sourcecode language="javascript"]
+function reverseString(str) {
+  var result = "";
+  for (var i = str.length - 1; i >= 0; i--) {
+    result +=  str.charAt(i);
+  }
+  return result;
+}
+
+String.prototype.reversed = function() { return reverseString(this); }
+print("Nick".reversed());
+// "kciN"
 [/sourcecode]
 </div>
 
@@ -198,7 +242,7 @@ catch (err) {
 }
 [/sourcecode]
 </div>
-f
+
 	
 [1]:http://jsfiddle.net/FeF6G/2/
 [2]:http://www.w3schools.com/jsref/jsref_obj_array.asp

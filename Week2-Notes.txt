@@ -37,3 +37,6 @@ value instanceof Array
 
 > The defining properties of pure functions are that they always return the same value when given the same arguments, and never have side effects. They take some arguments, return a value based on these arguments, and do not monkey around with anything else.
 
+
+
+## Reflect about the difference between object inheritance and class inheritance
