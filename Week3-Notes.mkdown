@@ -1,0 +1,55 @@
+function can contain members, other methods
+function inherits from object
+
+function == lambda in other languages
+
+when you declare a function, implicitly expands to a variable declaration whose value is that function object
+
+lexical scoping - inner function have access to same variables as parent function
+
+closure - inner function continues to exist as outer function exits.
+
+first lambda language to go mainstream
+
+a function in an object is called a method
+
+too many args - ignored
+too few - missing values are ignored
+
+
+arguments - special parameter - array like object with all the parameters
+
+varargs in a sense
+
+Object.prototype
+Array.prototype
+Function.prototype
+Number.prototype
+String.prototype
+
+typeof returns 'object' for array, 'object' for null
+
+do not use eval - most abused feature of the language
+
+only correct with json, but only if you can trust the server!
+
+could use parseJson method instead
+
+javascript does have object representations of primitives, but no reason to use it!  don't use new Boolean etc in javascript!
+
+`object` doesn't exist built in
+function object(o) {
+	function F() {}
+	F.prototype = o;
+	return new F();
+}
+
+formal classes are not needed in javascript
+
+
+global variables are evil- minimize global namespace
+
+implied globals are a big problem
+
+jslint - can catch globals and other problems
+
