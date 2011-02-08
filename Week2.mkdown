@@ -9,7 +9,7 @@ Unfortunately, switch statements can be more error prone due to the ability to '
 var BOY = 1;
 var GIRL = 2;
 var sentence = "Congratulations, it's a ";
-var gender = ...;
+var gender = GIRL;
 switch (gender) {
 	case BOY:
 		sentence += "boy!";
@@ -105,6 +105,8 @@ When we have unbounded recursion, more and more variables are added to the stack
 By the way, the fact that function calls are added to this stack is the reason that you can always replace a recursive function with an iterative solution using an explicit stack data structure.  This is often not worth the added complexity, but it's something to be aware of.  (You can often replace a recursive algorithm with an iterative solution without using a stack, but the code can be much more complicated.  Iterative solutions are often more efficient than recursive solutions, so as always it's a tradeoff.  See the [recursion][6] article on Wikipedia for more information.)
 
 
+## Reflect about the difference between object inheritance and class inheritance
+Class inheritance, in a language like Java, means that an instance of a subclass inherits all of the members and methods of its superclass; in a sense it has its own 'copies'.  In object inheritance, we get the members and methods via a hidden pointer to another object.  Thus changes in that linked object implicitly change the values in the other object.
 
 ## What is object augmentation, and how do we do it?
 Object augmentation is the act of adding fields or functions to an existing object.  For instance,
