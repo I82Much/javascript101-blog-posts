@@ -53,3 +53,41 @@ implied globals are a big problem
 
 jslint - can catch globals and other problems
 
+
+# video 2
+
+dates - based on java
+
+regular expressions - bizarre syntax, delimited by slashes (which are also used in many other places)
+
+action script (in flash) is somewhat similar to javascript but certainly not compatible
+
+e4x - xml syntax features tacked on to js.  Only firefox supports it.  stay away - will cause syntax errors in non e4x browsers (and can't conditionally include it).
+
+code conventions are necessary for javascript since the language itself doesn't enforce much rigor.
+
+http://javascript.crockford.com/code.html
+
+always use semicolons  - compiler will insert them automatically if you forget, but you REALLY shouldn't rely on this!
+
+break lines after punctuators, do not break after name, string, number, paren, bracket, ++ or --
+
+do not use trailing commas in arrays; diff browsers tell you the length is different
+
+define all variables at beginning of function.
+
+avoid fallthrough
+avoid assignment in if statements
+
+== and != do type conversion
+
+
+JSLint.com
+
+key ideas
+load and go delivery (source code as text that's executed like that)
+loose typing
+objects as general containers
+prototypal inheritance
+lambda
+linkage through global variables
