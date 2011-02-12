@@ -1,0 +1,36 @@
+## 4.1
+>The solution for the cat problem talks about a 'set' of names. A set is a collection of values in which no value may occur more than once. If names are strings, can you think of a way to use an object to represent a set of names?
+
+>Show how a name can be added to this set, how one can be removed, and how you can check whether a name occurs in it.
+
+<div>
+[sourcecode language="javascript"]
+var cat_set = {};
+// Add a cat
+cat_set["Tigger"] = true;
+// remove a cat
+delete cat_set["Tigger"];
+
+// Check if cat exists
+cat_set["Frog"] != undefined
+
+// Wrap it all up nicely: in an object with functions:
+var cat_set = {};
+cat_set.add_cat = function(cat) {
+    this[cat] = true;
+}
+cat_set.remove_cat = function(cat) {
+    delete this[cat];
+}
+cat_set.cat_exists = function(cat) {
+    return this[cat] != undefined;
+}
+
+cat_set.add_cat("Frisky");
+// prints "true"
+show(cat_set.cat_exists("Frisky"))
+cat_set.remove_cat("Frisky");
+// "false"
+show(cat_set.cat_exists("Frisky"))
+[/sourcecode]
+</div>
