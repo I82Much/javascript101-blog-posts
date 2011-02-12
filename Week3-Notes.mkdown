@@ -91,3 +91,9 @@ objects as general containers
 prototypal inheritance
 lambda
 linkage through global variables
+
+
+
+# Chapter 4
+in JS Dates -
+The month numbers these objects use go from 0 to 11, which can be confusing. Especially since day numbers do start from 1.
