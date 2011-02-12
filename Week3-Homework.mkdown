@@ -34,3 +34,52 @@ cat_set.remove_cat("Frisky");
 show(cat_set.cat_exists("Frisky"))
 [/sourcecode]
 </div>
+
+
+## 4.2
+> Write a function range that takes one argument, a positive number, and returns an array containing all numbers from 0 up to and including the given number.
+
+>An empty array can be created by simply typing []. Also remember that adding properties to an object, and thus also to an array, can be done by assigning them a value with the = operator. The length property is automatically updated when elements are added.
+
+<div>
+[sourcecode language="javascript"]
+// Assumes n >= 0
+function range(n) {
+    var array = [];
+    for (var i = 0; i <= n; i++) {
+        array[i] = i;
+    }
+    return array;
+}
+[/sourcecode]
+</div>
+
+## 4.3
+> `split` and `join` are not precisely each other's inverse. `string.split(x).join(x)` always produces the original value, but `array.join(x).split(x)` does not. Can you give an example of an array where `.join(" ").split(" ")` produces a different value?
+
+<div>
+[sourcecode language="javascript"]
+[" ", " ", " "].join(" ").split(" ");
+// equals ["", "", "", "", "", ""]
+[/sourcecode]
+</div>
+
+## 4.4
+>Write a function called startsWith that takes two arguments, both strings. It returns true when the first argument starts with the characters in the second argument, and false otherwise.
+
+<div>
+[sourcecode language="javascript"]
+function startsWith(string, pattern) {
+    return string.slice(0,pattern.length) === pattern;
+}
+[/sourcecode]
+</div>
+
+
+## 4.5
+> Can you write a function `catNames` that takes a paragraph as an argument and returns an array of names?
+
+> Strings have an `indexOf` method that can be used to find the (first) position of a character or sub-string within that string. Also, when `slice` is given only one argument, it will return the part of the string from the given position all the way to the end.
+
+> It can be helpful to use the console to 'explore' functions. For example, type `"foo: bar".indexOf(":")` and see what you get.
+
