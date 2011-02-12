@@ -83,3 +83,15 @@ function startsWith(string, pattern) {
 
 > It can be helpful to use the console to 'explore' functions. For example, type `"foo: bar".indexOf(":")` and see what you get.
 
+<div>
+[sourcecode language="javascript"]
+// The sentence is in the form "Blah blah: cat1, cat2, ..., catN."
+function catNames(paragraph) {
+    var colonIndex = paragraph.indexOf(":");
+    // Skip the colon and the following space
+    var catListString = paragraph.slice(colonIndex + 2);
+    return catString.split(", ");
+}
+[/sourcecode]
+</div>
+
