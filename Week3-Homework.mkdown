@@ -145,6 +145,32 @@ print(o.nestedFunc());
 
 Note that only the non nested functions that have been bound to object `o` point to that object as opposed to the DOMWindow.
 
+The reason we want the `this` pointer is to be able to introspect on the type and contents of the object that is calling the function.  For instance, in my [last assignment][2], I used the `this` variable to produce a nice representation of an object:
+
+<div>
+[sourcecode language="javascript"]
+nick = {name:"Nick",age:23};
+
+// This function returns a string representation of whatever
+// is invoking it
+function selfStringRep() {
+  var str = "";
+  for (var v in this) {
+    // This is not an inherited property
+    if (this.hasOwnProperty(v)) {
+      str += "'" + v + "': " + this[v] +"\n";
+    }
+  }
+  return str;
+}
+Object.prototype.toString = selfStringRep;
+print(nick.toString());
+// prints
+//'name': Nick
+//'age': 23
+[/sourcecode]
+</div>
+
 ## Why doesn't Javascript have a cast operator?
 
 ## What is reflection and why is it easy in Javascript (you may need to do research to answer this question)?
@@ -248,3 +274,4 @@ function catNames(paragraph) {
 </div>
 
 [1]:http://jsfiddle.net/zt9jf/5/
+[2]:http://developmentality.wordpress.com/2011/02/05/javascript-101-week-2-functions-encapsulation-augmentation/
