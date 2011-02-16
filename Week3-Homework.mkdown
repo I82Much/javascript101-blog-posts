@@ -1,3 +1,61 @@
+## In Javascript, functions are first class objects. What does it mean to be a first class object?
+A function can be used anywhere an object can be used; in particular, you can pass functions as method arguments.  (We did this in last week's homework by passing the `print` function into the `iterateAndOperate` method).  This is in contrast to a language like Java where functions are *not* first class objects, and the programmer must use interfaces and anonymous classes to get around this problem.  For instance, in Java, to delay the invocation of a function, you might do the following:
+
+<div>
+[sourcecode language="java"]
+SwingUtilities.invokeLater(new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("I was run!");
+    }
+})
+[/sourcecode]
+</div>
+
+whereas in Javascript, you could do something like
+
+<div>
+[sourcecode language="javascript"]
+invokeLater(function() { print("I was run") });
+[/sourcecode]
+</div>
+
+assuming there was an invokeLater function.
+
+
+
+
+## Functions and variables share the same namespace. What does this mean and what important implication does this have?
+
+This means that you must take care in not defining variables in the global namespace that have the same name as a function.  For instance,
+
+<div>
+[sourcecode language="javascript"]
+
+print = true;
+
+
+
+
+[/sourcecode]
+</div>
+
+
+## Douglas Crockford equates Javascript functions with Lambdas, and also mentions that they are a secure construct. Can you do some research and reflect on what he means by 'secure construct'?
+
+## Can you explain the concept of a closure.
+
+## What is the difference between a function and a method?
+
+## In Javascript there is no implicit type checking of arguments passed to functions. This could lead to bugs if programmers are not careful about what they pass to functions. If you create a function, how would you protect it from well meaning but careless programmers?
+
+## Javascript functions have implicit access to something called this. this points to different things depending on how the function was created. Can you explain why we need this, and what it represents in different type of functions.
+
+## Why doesn't Javascript have a cast operator?
+
+## What is reflection and why is it easy in Javascript (you may need to do research to answer this question)?
+
+
 ## 4.1
 >The solution for the cat problem talks about a 'set' of names. A set is a collection of values in which no value may occur more than once. If names are strings, can you think of a way to use an object to represent a set of names?
 
