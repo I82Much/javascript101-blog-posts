@@ -1,0 +1,44 @@
+2011-02-15
+
+DOM = document object model.
+
+interactivity key - scripted browser.
+
+netscape navigator 2 - 1995.  first.
+
+server manufacturers deliberately created proprietary traps -> trying to lock into their servers.
+
+but browser incompatibilities remain for this.
+
+DHTML = Ajax
+
+"bugs don't get fixed in the web"
+
+W3C - attempt to unify the two different models.  MS's model mostly won.
+
+in last ten years, browsers became stable
+
+mosaic - had to wait for all images to completely download before seeing ANYTHING on the screen.  netscape 1 put placeholder images, and then when image arrived, redid the layout and repainted the screen.  Huge improvement 
+
+"the a list" of browsers:
+firefox 1.5
+firefox 2.0
+safari 2
+ie 6
+ie 7
+opera 9
+
+
+no need for the <!-- --> stuff for <script></script> tags.  Used to there to get around a bug in netscape 1.
+
+no longer need the language attribute in script tags
+
+src=URL - highly recommended.  Don't put raw javascript in your html
+
+type=text/javascript is ignored when using the src=URL, so no need to use it
+
+place `<script src></script` tags as close to bottom of body as possible.  should minify and gzip the javascript code
+	
+	
+
+
