@@ -95,7 +95,55 @@ You can also use the `arguments` implicit variable in the function to check that
 
 ## Javascript functions have implicit access to something called `this`. `this` points to different things depending on how the function was created. Can you explain why we need `this`, and what it represents in different type of functions.
 
+If a function is created globally, its `this` pointer will be to the DOMObject.  If it's created and bound to an object, the `this` pointer points to that object.  The following illustrates this:
 
+<div>
+[sourcecode language="javascript"]
+function f() {
+  return "f's this: " + this;
+}
+
+function nested() {
+  function inner() {
+    return "inner's this:" + this;
+  }
+  return inner();
+}
+
+// o is an object; add a method do it
+var o = {};
+o.f = f;
+o.nested = nested;
+
+o.newFunc = function() { return "newFunc's this: " + this; };
+o.nestedFunc = function() { 
+  var inner = function() {
+    return "nestedFunc's inner this: " + this;
+  }
+  return inner();
+}
+     
+
+
+print(f());
+print(nested());
+print(o.f());
+print(o.nested());
+print(o.newFunc());
+print(o.nestedFunc());
+[/sourcecode]
+
+// prints
+// f's this: [object DOMWindow]
+// inner's this:[object DOMWindow]
+// f's this: [object Object]
+// inner's this:[object DOMWindow]
+// newFunc's this: [object Object]
+// nestedFunc's inner this: [object DOMWindow]
+//
+</div>
+
+Note that only the non nested functions that have been bound to object `o` point to that object as opposed to the DOMWindow.
 
 ## Why doesn't Javascript have a cast operator?
 
