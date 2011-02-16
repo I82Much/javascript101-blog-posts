@@ -131,7 +131,6 @@ print(o.f());
 print(o.nested());
 print(o.newFunc());
 print(o.nestedFunc());
-[/sourcecode]
 
 // prints
 // f's this: [object DOMWindow]
@@ -141,6 +140,7 @@ print(o.nestedFunc());
 // newFunc's this: [object Object]
 // nestedFunc's inner this: [object DOMWindow]
 //
+[/sourcecode]
 </div>
 
 Note that only the non nested functions that have been bound to object `o` point to that object as opposed to the DOMWindow.
