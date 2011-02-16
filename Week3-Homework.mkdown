@@ -20,8 +20,7 @@ invokeLater(function() { print("I was run") });
 [/sourcecode]
 </div>
 
-assuming there was an invokeLater function.
-
+assuming there was an `invokeLater` function.
 
 
 
@@ -31,25 +30,72 @@ This means that you must take care in not defining variables in the global names
 
 <div>
 [sourcecode language="javascript"]
+// global variable
+x = 5;
 
-print = true;
+function x(args) {
+    alert(args);   
+}
 
-
-
-
+// The global variable is shadowing the function name;
+// the function is not called
+x(5);
 [/sourcecode]
 </div>
 
 
 ## Douglas Crockford equates Javascript functions with Lambdas, and also mentions that they are a secure construct. Can you do some research and reflect on what he means by 'secure construct'?
 
+A lambda basically means that you can pass a function as an argument to another function; this is due to the aforementioned first class nature of functions.  They are a secure construct because the scope of the functions is such that private variables in function A cannot be accessed by function B when A is passed into B.  In other words,
+
+<div>
+[sourcecode language="javascript"]
+function outer(func) {
+  // "undefined", since the 'privateVariable'
+  // field is scoped only to the inner function.
+  return func.privateVariable;
+}
+
+function inner(a,b,c) {
+  var privateVariable = 25;
+  return a + ", " + b + ", " + c;
+}
+
+alert(outer(inner("cat","dog","bear")));
+[/sourcecode]
+</div>
+f
+
+
 ## Can you explain the concept of a closure.
+
+A closure means that an inner function continues to have access to variables defined inside of an outer function, even after the outer function has finished.  I wrote an example [you can view on jsfiddle][1].
 
 ## What is the difference between a function and a method?
 
+A method is a function that is bound to an object, and thus it has an implicit "self" reference.
+
 ## In Javascript there is no implicit type checking of arguments passed to functions. This could lead to bugs if programmers are not careful about what they pass to functions. If you create a function, how would you protect it from well meaning but careless programmers?
 
-## Javascript functions have implicit access to something called this. this points to different things depending on how the function was created. Can you explain why we need this, and what it represents in different type of functions.
+You can do defensive checks within the function.  For instance, if a method is supposed to take in a number, you could do the following:
+
+<div>
+[sourcecode language="javascript"]
+function numericalFunction(x) {
+	if (typeof(x) != "number") {
+		throw("Expected numerical value for numericalFunction; got " + x);
+	}
+	// Proceed as normal
+}
+[/sourcecode]
+</div>
+
+You can also use the `arguments` implicit variable in the function to check that the number of arguments the user passed in is equal to the number of arguments that the method expects.  
+
+
+## Javascript functions have implicit access to something called `this`. `this` points to different things depending on how the function was created. Can you explain why we need `this`, and what it represents in different type of functions.
+
+
 
 ## Why doesn't Javascript have a cast operator?
 
@@ -153,3 +199,4 @@ function catNames(paragraph) {
 [/sourcecode]
 </div>
 
+[1]:http://jsfiddle.net/zt9jf/5/
