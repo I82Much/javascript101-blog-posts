@@ -41,4 +41,13 @@ place `<script src></script` tags as close to bottom of body as possible.  shoul
 	
 	
 
+`document.write` is a really dangerous method.  Shouldn't use it
+
+`name` - used to identify info in a form.  Also used for radio buttons.  Could identify window/frame.
+`id` - uniquely identify an element to get access to it
+	
+`document.getElementById` - *not* ID!
+
+
+
 
