@@ -1,0 +1,75 @@
+2011-02-23
+
+# Reflection
+1. Why is it better to use either trickling or bubbling of events? Why not just give the event to the node on which it was invoked?
+
+> An event, when not handled, can 'bubble' through the DOM tree. What this means is that if you click on, for example, a link in a paragraph, any handlers associated with the link are called first. If there are no such handlers, or these handlers do not indicate that they have finished handling the event, the handlers for the paragraph, which is the parent of the link, are tried. After that, the handlers for document.body get a turn. Finally, if no JavaScript handlers have taken care of the event, the browser handles it. When clicking a link, this means that the link will be followed.
+
+http://eloquentjavascript.net/chapter13.html
+
+
+
+2. Can you think of one situation where you would want to prevent the browser from submitting a form after a user has clicked on the 'submit' button? How would you achieve this?
+
+
+# Homework
+## 12.1 of Eloquent Javascript
+
+> Write a function asHTML which, when given a DOM node, produces a string representing the HTML text for that node and its children. You may ignore attributes, just show nodes as <nodename>. The escapeHTML function from chapter 10 is available to properly escape the content of text nodes.
+
+Hint: Recursion!
+
+<div>
+[sourcecode language="javascript"]
+function isTextNode(node) {
+  return node.nodeType == 3;
+}
+
+function asHTML(node) {
+  // we're done recursing
+  if (node.childNodes.length === 0) {
+    if (isTextNode(node)) {
+      return node.nodeValue;
+      // This is unavailable in the jsFiddle environment 
+      //return escapeHTML(node.nodeValue);
+    }
+    else {
+      return "<" + node.nodeName + ">";
+    }
+  }
+  var returnString = "<" + node.nodeName + ">";
+  for (var i = 0; i < node.childNodes.length; i++) {
+    returnString += asHTML(node.childNodes[i]) + "\n";
+  }
+  return returnString;
+}
+
+alert(asHTML(document.body));
+[/sourcecode]
+</div>
+[JSFiddle example][1]
+
+## 12.2 of Eloquent Javascript
+>Write the convenient function removeElement which removes the DOM node it is given as an argument from its parent node.
+
+<div>
+[sourcecode language="javascript"]
+function removeElement(node) {
+    node.parentNode.removeChild(node);
+}
+[/sourcecode]
+</div>
+ 
+[See an example][2]
+
+
+## 13.1 of Eloquent Javascript
+> Write a function called registerEventHandler to wrap the incompatibilities of these two models. It takes three arguments: first a DOM node that the handler should be attached to, then the name of the event type, such as "click" or "keypress", and finally the handler function.
+
+To determine which method should be called, look for the methods themselves ― if the DOM node has a method called attachEvent, you may assume that this is the correct method. Note that this is much preferable to directly checking whether the browser is Internet Explorer. If a new browser arrives which uses Internet Explorer's model, or Internet Explorer suddenly switches to the standard model, the code will still work. Both are rather unlikely, of course, but doing something in a smart way never hurts.
+
+
+4. Create an HTML page and some Javascript to allow a user to add n numbers. First display a simple form with the question "How many numbers do you want to add (max is 10)". The user should enter a number between 2 to 10 and click on a button in the form. You have to validate the answer. If the user has entered a correct value (between 2 and 10), then dynamically create a form with n text input fields and an "Add" button. Once the form is displayed the user will enter n numbers in the n input fields and when they click on the "Add" button, dynamically create a span element with the result. You will have to perform validation on the values entered in the input fields to make sure that they are numbers. If they are not numbers, display an alert dialogue with an error message.
+
+[1]:http://jsfiddle.net/QXB2J/1/
+[2]:http://jsfiddle.net/xeHza/1/
