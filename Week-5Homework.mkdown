@@ -66,10 +66,33 @@ function removeElement(node) {
 ## 13.1 of Eloquent Javascript
 > Write a function called registerEventHandler to wrap the incompatibilities of these two models. It takes three arguments: first a DOM node that the handler should be attached to, then the name of the event type, such as "click" or "keypress", and finally the handler function.
 
-To determine which method should be called, look for the methods themselves ― if the DOM node has a method called attachEvent, you may assume that this is the correct method. Note that this is much preferable to directly checking whether the browser is Internet Explorer. If a new browser arrives which uses Internet Explorer's model, or Internet Explorer suddenly switches to the standard model, the code will still work. Both are rather unlikely, of course, but doing something in a smart way never hurts.
+> To determine which method should be called, look for the methods themselves ― if the DOM node has a method called attachEvent, you may assume that this is the correct method. Note that this is much preferable to directly checking whether the browser is Internet Explorer. If a new browser arrives which uses Internet Explorer's model, or Internet Explorer suddenly switches to the standard model, the code will still work. Both are rather unlikely, of course, but doing something in a smart way never hurts.
 
+<div>
+[sourcecode language="javascript"]
+// eventname is the name of the event without the 'on' prefix.  e.g.
+// to register for a click event, the eventname value should be "click"
+function registerEventHandler(node, eventname, handler) {
+    // node has an attachEvent method; use that.  This is how ie works
+    if (node.attachEvent) {
+        node.attachEvent("on" + eventname, handler);
+    }
+    // Mozilla model
+    else if (node.addEventListener) {
+        // false - use bubble up rather than trickle down
+        node.addEventListener(eventname, handler, false);
+    }
+    else {
+        node["on" + eventname] = handler;
+    }
+}
+[/sourcecode]
+</div>
+[JSFiddle example - when mouse enters element, it becomes bold.  After it leaves, it becomes normal][3]
 
-4. Create an HTML page and some Javascript to allow a user to add n numbers. First display a simple form with the question "How many numbers do you want to add (max is 10)". The user should enter a number between 2 to 10 and click on a button in the form. You have to validate the answer. If the user has entered a correct value (between 2 and 10), then dynamically create a form with n text input fields and an "Add" button. Once the form is displayed the user will enter n numbers in the n input fields and when they click on the "Add" button, dynamically create a span element with the result. You will have to perform validation on the values entered in the input fields to make sure that they are numbers. If they are not numbers, display an alert dialogue with an error message.
+## Create an HTML page and some Javascript to allow a user to add n numbers. 
+> First display a simple form with the question "How many numbers do you want to add (max is 10)". The user should enter a number between 2 to 10 and click on a button in the form. You have to validate the answer. If the user has entered a correct value (between 2 and 10), then dynamically create a form with n text input fields and an "Add" button. Once the form is displayed the user will enter n numbers in the n input fields and when they click on the "Add" button, dynamically create a span element with the result. You will have to perform validation on the values entered in the input fields to make sure that they are numbers. If they are not numbers, display an alert dialogue with an error message.
 
 [1]:http://jsfiddle.net/QXB2J/1/
 [2]:http://jsfiddle.net/xeHza/1/
+[3]:http://jsfiddle.net/HSJQf/1/

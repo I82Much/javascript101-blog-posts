@@ -1,0 +1,13 @@
+2011-02-22
+
+Trickling vs bubbling event aptures
+
+Trickling - compatible w/ Netscape 4.  Avoid.  Trickle up.
+
+Bubbling - event is given to target, then its parent, then its parent, until event is canceled
+
+e.cancelBubble = true;
+if (e.stopPropagation) {
+	e.stopPropagation();
+}
+

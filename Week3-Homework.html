@@ -1,0 +1,283 @@
+<h2 id="in_javascript_functions_are_first_class_objects_what_does_it_mean_to_be_a_first_class_object">In Javascript, functions are first class objects. What does it mean to be a first class object?</h2>
+
+<p>A function can be used anywhere an object can be used; in particular, you can pass functions as method arguments.  (We did this in last week&#8217;s homework by passing the <code>print</code> function into the <code>iterateAndOperate</code> method).  This is in contrast to a language like Java where functions are <em>not</em> first class objects, and the programmer must use interfaces and anonymous classes to get around this problem.  For instance, in Java, to delay the invocation of a function, you might do the following:</p>
+
+<div>
+[sourcecode language="java"]
+SwingUtilities.invokeLater(new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("I was run!");
+    }
+})
+[/sourcecode]
+</div>
+
+<p>whereas in Javascript, you could do something like</p>
+
+<div>
+[sourcecode language="javascript"]
+invokeLater(function() { print("I was run") });
+[/sourcecode]
+</div>
+
+<p>assuming there was an <code>invokeLater</code> function.</p>
+
+<h2 id="functions_and_variables_share_the_same_namespace_what_does_this_mean_and_what_important_implication_does_this_have">Functions and variables share the same namespace. What does this mean and what important implication does this have?</h2>
+
+<p>This means that you must take care in not defining variables in the global namespace that have the same name as a function.  For instance,</p>
+
+<div>
+[sourcecode language="javascript"]
+// global variable
+x = 5;
+
+function x(args) {
+    alert(args);   
+}
+
+// The global variable is shadowing the function name;
+// the function is not called
+x(5);
+[/sourcecode]
+</div>
+
+<h2 id="douglas_crockford_equates_javascript_functions_with_lambdas_and_also_mentions_that_they_are_a_secure_construct_can_you_do_some_research_and_reflect_on_what_he_means_by_8216secure_construct8217">Douglas Crockford equates Javascript functions with Lambdas, and also mentions that they are a secure construct. Can you do some research and reflect on what he means by &#8216;secure construct&#8217;?</h2>
+
+<p>A lambda basically means that you can pass a function as an argument to another function; this is due to the aforementioned first class nature of functions.  They are a secure construct because the scope of the functions is such that private variables in function A cannot be accessed by function B when A is passed into B.  In other words,</p>
+
+<div>
+[sourcecode language="javascript"]
+function outer(func) {
+  // "undefined", since the &#8216;privateVariable&#8217;
+  // field is scoped only to the inner function.
+  return func.privateVariable;
+}
+
+function inner(a,b,c) {
+  var privateVariable = 25;
+  return a + ", " + b + ", " + c;
+}
+
+alert(outer(inner("cat","dog","bear")));
+[/sourcecode]
+</div>
+
+<p>f</p>
+
+<h2 id="can_you_explain_the_concept_of_a_closure">Can you explain the concept of a closure.</h2>
+
+<p>A closure means that an inner function continues to have access to variables defined inside of an outer function, even after the outer function has finished.  I wrote an example <a href="http://jsfiddle.net/zt9jf/5/">you can view on jsfiddle</a>.</p>
+
+<h2 id="what_is_the_difference_between_a_function_and_a_method">What is the difference between a function and a method?</h2>
+
+<p>A method is a function that is bound to an object, and thus it has an implicit &#8220;self&#8221; reference.</p>
+
+<h2 id="in_javascript_there_is_no_implicit_type_checking_of_arguments_passed_to_functions_this_could_lead_to_bugs_if_programmers_are_not_careful_about_what_they_pass_to_functions_if_you_create_a_function_how_would_you_protect_it_from_well_meaning_but_careless_programmers">In Javascript there is no implicit type checking of arguments passed to functions. This could lead to bugs if programmers are not careful about what they pass to functions. If you create a function, how would you protect it from well meaning but careless programmers?</h2>
+
+<p>You can do defensive checks within the function.  For instance, if a method is supposed to take in a number, you could do the following:</p>
+
+<div>
+[sourcecode language="javascript"]
+function numericalFunction(x) {
+    if (typeof(x) != "number") {
+        throw("Expected numerical value for numericalFunction; got " + x);
+    }
+    // Proceed as normal
+}
+[/sourcecode]
+</div>
+
+<p>You can also use the <code>arguments</code> implicit variable in the function to check that the number of arguments the user passed in is equal to the number of arguments that the method expects.  </p>
+
+<h2 id="javascript_functions_have_implicit_access_to_something_called_this_this_points_to_different_things_depending_on_how_the_function_was_created_can_you_explain_why_we_need_this_and_what_it_represents_in_different_type_of_functions">Javascript functions have implicit access to something called <code>this</code>. <code>this</code> points to different things depending on how the function was created. Can you explain why we need <code>this</code>, and what it represents in different type of functions.</h2>
+
+<p>If a function is created globally, its <code>this</code> pointer will be to the DOMObject.  If it&#8217;s created and bound to an object, the <code>this</code> pointer points to that object.  The following illustrates this:</p>
+
+<div>
+[sourcecode language="javascript"]
+function f() {
+  return "f's this: " + this;
+}
+
+function nested() {
+  function inner() {
+    return "inner's this:" + this;
+  }
+  return inner();
+}
+
+// o is an object; add a method do it
+var o = {};
+o.f = f;
+o.nested = nested;
+
+o.newFunc = function() { return "newFunc's this: " + this; };
+o.nestedFunc = function() { 
+  var inner = function() {
+    return "nestedFunc's inner this: " + this;
+  }
+  return inner();
+}
+
+
+
+print(f());
+print(nested());
+print(o.f());
+print(o.nested());
+print(o.newFunc());
+print(o.nestedFunc());
+
+// prints
+// f's this: [object DOMWindow]
+// inner's this:[object DOMWindow]
+// f's this: [object Object]
+// inner's this:[object DOMWindow]
+// newFunc's this: [object Object]
+// nestedFunc's inner this: [object DOMWindow]
+//
+[/sourcecode]
+</div>
+
+<p>Note that only the non nested functions that have been bound to object <code>o</code> point to that object as opposed to the DOMWindow.</p>
+
+<p>The reason we want the <code>this</code> pointer is to be able to introspect on the type and contents of the object that is calling the function.  For instance, in my <a href="http://developmentality.wordpress.com/2011/02/05/javascript-101-week-2-functions-encapsulation-augmentation/">last assignment</a>, I used the <code>this</code> variable to produce a nice representation of an object:</p>
+
+<div>
+[sourcecode language="javascript"]
+nick = {name:"Nick",age:23};
+
+// This function returns a string representation of whatever
+// is invoking it
+function selfStringRep() {
+  var str = "";
+  for (var v in this) {
+    // This is not an inherited property
+    if (this.hasOwnProperty(v)) {
+      str += "&#8217;" + v + "&#8217;: " + this[v] +"\n";
+    }
+  }
+  return str;
+}
+Object.prototype.toString = selfStringRep;
+print(nick.toString());
+// prints
+//&#8217;name&#8217;: Nick
+//&#8217;age&#8217;: 23
+[/sourcecode]
+</div>
+
+<h2 id="why_doesn8217t_javascript_have_a_cast_operator">Why doesn&#8217;t Javascript have a cast operator?</h2>
+
+<h2 id="what_is_reflection_and_why_is_it_easy_in_javascript_you_may_need_to_do_research_to_answer_this_question">What is reflection and why is it easy in Javascript (you may need to do research to answer this question)?</h2>
+
+<h2 id="41">4.1</h2>
+
+<blockquote>
+  <p>The solution for the cat problem talks about a &#8216;set&#8217; of names. A set is a collection of values in which no value may occur more than once. If names are strings, can you think of a way to use an object to represent a set of names?</p>
+  
+  <p>Show how a name can be added to this set, how one can be removed, and how you can check whether a name occurs in it.</p>
+</blockquote>
+
+<div>
+[sourcecode language="javascript"]
+var cat_set = {};
+// Add a cat
+cat_set["Tigger"] = true;
+// remove a cat
+delete cat_set["Tigger"];
+
+// Check if cat exists
+cat_set["Frog"] != undefined
+
+// Wrap it all up nicely: in an object with functions:
+var cat_set = {};
+cat_set.add_cat = function(cat) {
+    this[cat] = true;
+}
+cat_set.remove_cat = function(cat) {
+    delete this[cat];
+}
+cat_set.cat_exists = function(cat) {
+    return this[cat] != undefined;
+}
+
+cat_set.add_cat("Frisky");
+// prints "true"
+show(cat_set.cat_exists("Frisky"))
+cat_set.remove_cat("Frisky");
+// "false"
+show(cat_set.cat_exists("Frisky"))
+[/sourcecode]
+</div>
+
+<h2 id="42">4.2</h2>
+
+<blockquote>
+  <p>Write a function range that takes one argument, a positive number, and returns an array containing all numbers from 0 up to and including the given number.</p>
+  
+  <p>An empty array can be created by simply typing []. Also remember that adding properties to an object, and thus also to an array, can be done by assigning them a value with the = operator. The length property is automatically updated when elements are added.</p>
+</blockquote>
+
+<div>
+[sourcecode language="javascript"]
+// Assumes n >= 0
+function range(n) {
+    var array = [];
+    for (var i = 0; i <= n; i++) {
+        array[i] = i;
+    }
+    return array;
+}
+[/sourcecode]
+</div>
+
+<h2 id="43">4.3</h2>
+
+<blockquote>
+  <p><code>split</code> and <code>join</code> are not precisely each other&#8217;s inverse. <code>string.split(x).join(x)</code> always produces the original value, but <code>array.join(x).split(x)</code> does not. Can you give an example of an array where <code>.join(" ").split(" ")</code> produces a different value?</p>
+</blockquote>
+
+<div>
+[sourcecode language="javascript"]
+[" ", " ", " "].join(" ").split(" ");
+// equals ["", "", "", "", "", ""]
+[/sourcecode]
+</div>
+
+<h2 id="44">4.4</h2>
+
+<blockquote>
+  <p>Write a function called startsWith that takes two arguments, both strings. It returns true when the first argument starts with the characters in the second argument, and false otherwise.</p>
+</blockquote>
+
+<div>
+[sourcecode language="javascript"]
+function startsWith(string, pattern) {
+    return string.slice(0,pattern.length) === pattern;
+}
+[/sourcecode]
+</div>
+
+<h2 id="45">4.5</h2>
+
+<blockquote>
+  <p>Can you write a function <code>catNames</code> that takes a paragraph as an argument and returns an array of names?</p>
+  
+  <p>Strings have an <code>indexOf</code> method that can be used to find the (first) position of a character or sub-string within that string. Also, when <code>slice</code> is given only one argument, it will return the part of the string from the given position all the way to the end.</p>
+  
+  <p>It can be helpful to use the console to &#8216;explore&#8217; functions. For example, type <code>"foo: bar".indexOf(":")</code> and see what you get.</p>
+</blockquote>
+
+<div>
+[sourcecode language="javascript"]
+// The sentence is in the form "Blah blah: cat1, cat2, &#8230;, catN."
+function catNames(paragraph) {
+    var colonIndex = paragraph.indexOf(":");
+    // Skip the colon and the following space
+    var catListString = paragraph.slice(colonIndex + 2);
+    return catString.split(", ");
+}
+[/sourcecode]
+</div>
