@@ -93,6 +93,9 @@ function registerEventHandler(node, eventname, handler) {
 ## Create an HTML page and some Javascript to allow a user to add n numbers. 
 > First display a simple form with the question "How many numbers do you want to add (max is 10)". The user should enter a number between 2 to 10 and click on a button in the form. You have to validate the answer. If the user has entered a correct value (between 2 and 10), then dynamically create a form with n text input fields and an "Add" button. Once the form is displayed the user will enter n numbers in the n input fields and when they click on the "Add" button, dynamically create a span element with the result. You will have to perform validation on the values entered in the input fields to make sure that they are numbers. If they are not numbers, display an alert dialogue with an error message.
 
+[JSFiddle][4]
+
 [1]:http://jsfiddle.net/QXB2J/1/
 [2]:http://jsfiddle.net/xeHza/1/
 [3]:http://jsfiddle.net/HSJQf/1/
+[4]:http://jsfiddle.net/qRpjK/5/
