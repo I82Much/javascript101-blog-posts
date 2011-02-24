@@ -1,0 +1,84 @@
+Questions for reflection (please reflect on your blog and discuss in comments below):
+## There were two key innovations to the original (fetch-parse-flow-paint) linear workflow that the Mosaic browser used to render web pages. One allowed for a perception of faster rendering, and the other allowed for us to use AJAX. Explain both?
+
+Early browsers had to wait for all the images on a page to be downloaded before they could complete their flow phase, as they needed to know how big the images were before they could lay out the page.  The advance of Mosaic was to insert temporary placeholders for the images, layout the page, and display it to the user as soon as all the text was downloaded.  As the images finished downloading asynchronously, the placeholder images were each swapped out, and the layout was recalculated and rerendered.  While the overall time to finish completely rendering the page was higher (due to the increased number of flow/paint steps), the usability was much improved because people could begin reading the webpages almost immediately.
+
+The second major change was that events could call scripts which in turn could cause the page to be rerendered (i.e. the flow algorithm would be re-run).  This is the basis of dynamic HTML pages as we know them.  See [Blain Armstrong's excellent blog post][5] for more details.
+
+
+
+## What are the roles of 'name' and 'id' attributes in HTML tags? What is an appropriate use of both?
+
+The video noted that 'name' and 'id' used to be synonymous, and in fact most of the browser implementations used them interchangeably.  This has changed in recent years and now there are reasons to use one over the other.
+
+The 'id' field must be the unique identifier for a given element, whereas the 'name' field is not necessarily unique.  Name should be used to identify values in form data.  The name you give a text field, for instance, determines the key=value pairing you'll receive when the form is posted.  For instance, if we have a text field whose `name` is "firstName", then when the form is posted, we'll have `firstName=blahblahblah` as one of the parameters.
+
+## Which pointers does each node in the DOM tree typically have?
+Each node has a parent and an array of child nodes.  The parent node is accessed via the `parentNode` property, and the array of children can be accessed by `childNodes`.  Furthermore, there are explicit pointers to the first and last child, accessible via the `firstChild` and `lastChild` properties.  Nodes also have pointers to their next sibling as well (via `nextSibling` pointer).
+
+## Given a node object from a DOM tree, how do we determine if it is a text node or a regular node?
+
+We can access the `nodeName` property; if it's "#text", it's a text node, else it's a regular node.  In code:
+
+<div>
+[sourcecode language="javascript"]
+function isTextNode(node) {
+    return node.nodeName == "#text";   
+}
+[/sourcecode]
+</div>
+
+Homework:
+## Download the source for the web page 'http://www.useit.com/about/nographics.html'. In the source page itself, write a Javascript function which counts the number of text nodes in the document and shows the count in an alert dialogue. You can choose how you want to trigger the function (through a button click, link click, or any other event).
+
+All of the following answers use the following basic code:
+
+<div>
+[sourcecode language="javascript"]
+// Performs a depth first tree traversal rooted at the given rootNode.  This
+// node and all of its child nodes will have visitorFunc called on it.
+function dfs(rootNode, visitorFunc) {
+    var numChildren = rootNode.childNodes.length;
+    visitorFunc(rootNode);
+    for (var i = 0; i < numChildren; i++) {
+        var childNode = rootNode.childNodes[i];
+        dfs(childNode, visitorFunc);        
+    }
+}
+
+var count = 0;
+function isTextNode(node) {
+    return node.nodeName == "#text";   
+}
+
+function countTextNodes(node) {
+    if (isTextNode(node)) {
+        count+= 1;
+    }
+}
+
+// After this call, count is set to the number of text nodes
+dfs(document, countTextNodes);
+[/sourcecode]
+</div>
+
+
+[Through onload][1]
+[With a button launching the count][2]
+
+
+## Change the example above so that instead of displaying the count in an alert dialogue, it is displayed in a span tag in the HTML page itself.
+
+[JSFiddle][3]
+
+## Add a link besides the button, such that when the link is click, it changes the style on the span tag to make it's contents bold.
+[JSFiddle][4]
+
+
+/*#p2pu-Jan2011-javascript101*/
+
+[1]:http://jsfiddle.net/zxDCV/2/
+[2]:http://jsfiddle.net/zxDCV/4/
+[3]:http://jsfiddle.net/KERH7/1/
+[4]:http://jsfiddle.net/KERH7/5/
+[5]:http://blainarmstrong.wordpress.com/2011/02/22/week-4-assignments/
