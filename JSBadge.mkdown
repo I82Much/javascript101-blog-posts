@@ -1,0 +1,37 @@
+Step 1: Hiding the email fields by default
+Add some plain old CSS style so that the "emailpara" paragraph isn't displayed when the page first loads (using the CSS 'display' property). Test to make sure this works.
+
+
+http://jsfiddle.net/Z2FH4/3/
+
+Step 2: Adding a function template
+Create a new function called toggleEmail() that simply displays an alert, ie. window.alert("Yep, my function is being called");
+Add an event so that when the checkbox is clicked your function is called and test that it works!
+
+
+http://jsfiddle.net/Z2FH4/4/
+
+Step 3: Display the email fields
+Now we'll replace that alert() code so that our function actually does something useful! Using JavaScript, we can change the style of any element on our page using the style object. Every element has a style object and we can access it like this:
+
+
+http://jsfiddle.net/Z2FH4/8/
+
+
+Step 4: Making the email field toggle
+When you test your form at the moment, you'll notice that you can click on the checkbox and the email field displays, but when you un-check the checkbox the extra paragraph doesn't hide itself again!
+Our challenge is to add an if-statement to our toggleEmail() function that checks to see if the checkbox is currently checked. If it is, we want to display our "emailpara" paragraph, otherwise we want to hide it!
+To do this, we need to know how we can find out if a checkbox is currently checked... luckily for us, W3Schools's HTML DOM Checkbox reference tells us that a checkbox element has a property called 'checked' that is either true or false (ie. we can use, document.getElementById("idofinputelement").checked to find out the value of a checkbox, either true or false).
+
+http://jsfiddle.net/Z2FH4/9/
+
+Step 5: When Javascript is disabled
+At the moment if a user views the page with CSS enabled but Javascript disabled they will never see the email field. Remove the CSS that hides the email field and replace it with Javascript to hide the field when the page's onload event is fired.
+
+
+http://jsfiddle.net/Z2FH4/11/
+
+
+
+
+
