@@ -1,15 +1,11 @@
-2011-02-23
-
 # Reflection
-1. Why is it better to use either trickling or bubbling of events? Why not just give the event to the node on which it was invoked?
+## Why is it better to use either trickling or bubbling of events? Why not just give the event to the node on which it was invoked?
 
-> An event, when not handled, can 'bubble' through the DOM tree. What this means is that if you click on, for example, a link in a paragraph, any handlers associated with the link are called first. If there are no such handlers, or these handlers do not indicate that they have finished handling the event, the handlers for the paragraph, which is the parent of the link, are tried. After that, the handlers for document.body get a turn. Finally, if no JavaScript handlers have taken care of the event, the browser handles it. When clicking a link, this means that the link will be followed.
+There are two main reasons to use the trickling down or bubbling up of events.  The first is performance.  If we have 100 different images on a page and we want each one to respond to the `hover` event, it is very inefficient to create 100 different event listeners and attach them to each element.  We can instead create a single hover event listener on the `<div>` which contains all of these pictures, and from within that event handler, determine which of its enclosed `<img>` elements was clicked.  Additionally, when the event bubbles up the parent chain, the programmer is free to do interesting things like change the style of entire subtrees as a result of an event listener lower down in the hierarchy.
+  
+## Can you think of one situation where you would want to prevent the browser from submitting a form after a user has clicked on the 'submit' button? How would you achieve this?
 
-http://eloquentjavascript.net/chapter13.html
-
-
-
-2. Can you think of one situation where you would want to prevent the browser from submitting a form after a user has clicked on the 'submit' button? How would you achieve this?
+One example would be if we had some client side validation we wanted to take place before submitting a form to the server.  For instance, we might want to validate that all the form fields are filled out, or that the values entered into these fields have a certain format (e.g. mm/dd/yyyy format for dates).  When the form submit button is clicked and the validation routine takes place, if there is an error that function can call the `preventDefault` method on the corresponding event object.  
 
 
 # Homework
@@ -93,9 +89,12 @@ function registerEventHandler(node, eventname, handler) {
 ## Create an HTML page and some Javascript to allow a user to add n numbers. 
 > First display a simple form with the question "How many numbers do you want to add (max is 10)". The user should enter a number between 2 to 10 and click on a button in the form. You have to validate the answer. If the user has entered a correct value (between 2 and 10), then dynamically create a form with n text input fields and an "Add" button. Once the form is displayed the user will enter n numbers in the n input fields and when they click on the "Add" button, dynamically create a span element with the result. You will have to perform validation on the values entered in the input fields to make sure that they are numbers. If they are not numbers, display an alert dialogue with an error message.
 
-[JSFiddle][4]
+[JSFiddle][4] solution
+
+/*#p2pu-Jan2011-javascript101*/
+
 
 [1]:http://jsfiddle.net/QXB2J/1/
 [2]:http://jsfiddle.net/xeHza/1/
 [3]:http://jsfiddle.net/HSJQf/1/
-[4]:http://jsfiddle.net/qRpjK/5/
+[4]:http://jsfiddle.net/qRpjK/14/
